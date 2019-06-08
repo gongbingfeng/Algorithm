@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void directSort() {
         //todo:直接选择排序的具体实现
-        //todo:for
+        //todo:for循环
         //分为有序区和无序区，每一趟排序都在无序区依次对比，记录最小的元素
         //然后把无序区第一个元素和最小元素进行交换，无序区少一，有序区多一个，依此循环
         //元素数量为0
