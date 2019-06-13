@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    //todo:直接插入排序法
+    //todo:直接插入排序法。
 
     private void insertSort(){
         for (int i=1;i<items.length;i++){
