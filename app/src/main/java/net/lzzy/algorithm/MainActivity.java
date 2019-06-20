@@ -1,12 +1,22 @@
 package net.lzzy.algorithm;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.AndroidException;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import net.lzzy.algorithm.algorlib.BaseSort;
+import net.lzzy.algorithm.algorlib.DirectSort;
+import net.lzzy.algorithm.algorlib.SortFactory;
 
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -16,6 +26,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Integer[] items;
     private EditText edtItems;
     private TextView tvResult;
+    private Spinner spinner;
+
+    private  void initspinner(){
+        Spinner spinner=findViewById(R.id.spinner);
+        spinner.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,SortFactory.getSortName()));
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.activity_main_btn_generate).setOnClickListener(this);
         findViewById(R.id.activity_main_btn_sort).setOnClickListener(this);
         tvResult = findViewById(R.id.activity_main_tv_result);
+        spinner=findViewById(R.id.spinner);
+        initspinner();
     }
 
     @Override
@@ -35,9 +55,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 displayItems(edtItems);
                 break;
             case R.id.activity_main_btn_sort:
-                //directSort();
-                insertSort();
-                displayItems(tvResult);
+                BaseSort<Integer>sort= SortFactory.getInstance(spinner.getSelectedItemPosition(),items);
+                BaseSort<Integer> sortnotnull= Objects.requireNonNull(sort);
+                sortnotnull.getDuration();
+
+               String resul=sortnotnull.getResult();
+//                String resu=sort.getResult();
+                tvResult.setText(resul);
+                //displayItems(tvResult);
+//                new AlertDialog.Builder(MainActivity.this).setTitle("排序完成")
+//                        .setMessage("对比次数:"+sort.getComparecount()+
+//                                "\n交换次数:"+sort.getSwacount()+
+//                                "\n移动次数:"+sort.getMovestep()+
+//                                "\n运行时长:"+sort.getDuration())
+//                        .show();
+//                displayItems(tvResult);
                 break;
             default:
                 break;
@@ -88,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     private void swap(int minpos, int i) {
         int tmp=items[minpos];
         items[minpos]=items[i];
@@ -102,4 +133,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             items[i] = generator.nextInt(99);
         }
     }
+
 }
